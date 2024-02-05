@@ -1,8 +1,9 @@
+// Doth Libray (C) by Marcos Oliveira
 
-#include "hello.h"
+#include <string>
 
-#include <iostream>
+#include <doht/hello.h>
 
-void hello() {
-  std::cout << "hello doht" << std::endl;
+std::string hello() {
+  return "Hello doht!";
 }
