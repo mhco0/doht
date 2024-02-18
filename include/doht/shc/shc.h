@@ -1,4 +1,4 @@
-// Doth Libray (C) by Marcos Oliveira
+// Doth Library (C) by Marcos Oliveira
 #pragma once
 
 #include <cstddef>

@@ -1,5 +1,4 @@
-// Doth Libray (C) by Marcos Oliveira
-
+// Doth Library (C) by Marcos Oliveira
 #include <doht/shc/shc.h>
 
 #include <cstddef>
