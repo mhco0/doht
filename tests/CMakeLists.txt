@@ -5,9 +5,9 @@ enable_testing()
 include(GoogleTest)
 include(CTest)
 
-add_executable(hello_teste "hello.test.cpp")
+add_executable(shc_test "shc.test.cpp")
 
-target_link_libraries(hello_teste PUBLIC hello GTest::gtest GTest::gtest_main)
+target_link_libraries(shc_test PUBLIC shc GTest::gtest GTest::gtest_main)
 
-gtest_discover_tests(hello_teste WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                                                   DISCOVERY_TIMEOUT 30)
+gtest_discover_tests(shc_test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                                                DISCOVERY_TIMEOUT 30)
