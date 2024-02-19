@@ -184,7 +184,7 @@ class CodingTree {
   inline bool IsLeaf(const Node& node) const { return node.symbol.has_value(); }
   inline void SetSize(int32_t leafs) {
     /// Danger. This can cosume so much memory. TODO(Marcos): Reduce memory usage.
-    weights_.reserve(1 << leafs);
+    weights_.reserve(100 * leafs);
     for (size_t i = 0; i < weights_.capacity(); ++i) {
       weights_.emplace_back(Node{.symbol = std::nullopt, .frequency = 0});
     }
