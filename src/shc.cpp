@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <fstream>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -260,7 +261,7 @@ std::istream& operator>>(std::istream& in, CodingTree& coding_tree) {
   for (size_t i = 0; i < weights_size; ++i) {
     std::string symbol{};
     in >> symbol;
-
+    std::cout << "(" << symbol << ", " << symbol.size() << ")\n";
     Node node{};
     if (symbol == "nl") {
       node.symbol = std::nullopt;
@@ -271,6 +272,8 @@ std::istream& operator>>(std::istream& in, CodingTree& coding_tree) {
     in >> node.frequency;
     coding_tree.weights_.emplace_back(node);
   }
+
+  std::cout << "here\n";
 
   size_t coding_map_size{};
   in >> coding_map_size;
@@ -288,6 +291,8 @@ std::istream& operator>>(std::istream& in, CodingTree& coding_tree) {
     }
     coding_tree.code_map_.insert(std::make_pair(symbol.at(0), code));
   }
+
+  std::cout << "here2\n";
 
   return in;
 }
