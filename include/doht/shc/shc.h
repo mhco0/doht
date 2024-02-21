@@ -21,6 +21,9 @@ class StaticHuffmanCode final {
   std::vector<std::byte> Encode(const std::span<char>& text);
   std::string Decode(const std::vector<std::byte>& encoded);
 
+  void Save(const std::string& save_path);
+  void Load(const std::string& load_path);
+
  private:
   struct StaticHuffmanCodeImpl;
   std::unique_ptr<StaticHuffmanCodeImpl> impl_;
