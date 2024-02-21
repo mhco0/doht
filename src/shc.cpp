@@ -2,6 +2,8 @@
 #include <doht/shc/shc.h>
 
 #include <cstddef>
+#include <fstream>
+#include <iostream>
 #include <functional>
 #include <iterator>
 #include <map>
@@ -25,6 +27,12 @@ class CodingTree {
   void ClearTree() {
     weights_.clear();
     code_map_.clear();
+  }
+
+  void SetTree(const std::vector<Node>& weights,
+               const std::map<char, std::vector<bool>>& code_map) {
+    weights_ = weights;
+    code_map_ = code_map;
   }
 
   void BuildTree(const std::map<char, int32_t>& frequencies) {
@@ -178,6 +186,9 @@ class CodingTree {
     return original_text;
   }
 
+  friend std::ostream& operator<<(std::ostream&, const CodingTree&);
+  friend std::istream& operator>>(std::istream&, CodingTree&);
+
  private:
   inline int32_t Right(int32_t parent) const { return (parent << 1) + 2; }
   inline int32_t Left(int32_t parent) const { return (parent << 1) + 1; }
@@ -211,6 +222,76 @@ class CodingTree {
   std::vector<Node> weights_{};
   std::map<char, std::vector<bool>> code_map_{};
 };
+
+std::ostream& operator<<(std::ostream& out, const CodingTree& coding_tree) {
+  auto weights_size = coding_tree.weights_.size();
+
+  out << weights_size;
+  for (const auto& node : coding_tree.weights_) {
+    if (node.symbol.has_value()) {
+      out << ' ' << node.symbol.value();
+    } else {
+      out << " nl";
+    }
+
+    out << ' ' << node.frequency;
+  }
+  out << '\n';
+
+  auto coding_map_size = coding_tree.code_map_.size();
+  out << coding_map_size;
+  for (const auto& [symbol, vector_code] : coding_tree.code_map_) {
+    auto code_size = vector_code.size();
+    out << ' ' << symbol << ' ' << code_size;
+
+    for (const auto& bit : vector_code) {
+      out << ' ' << bit;
+    }
+  }
+  out << '\n';
+
+  return out;
+}
+
+std::istream& operator>>(std::istream& in, CodingTree& coding_tree) {
+  size_t weights_size{};
+
+  in >> weights_size;
+  coding_tree.weights_.reserve(weights_size);
+  for (size_t i = 0; i < weights_size; ++i) {
+    std::string symbol{};
+    in >> symbol;
+
+    Node node{};
+    if (symbol == "nl") {
+      node.symbol = std::nullopt;
+    } else {
+      node.symbol = std::make_optional(symbol.at(0));
+    }
+
+    in >> node.frequency;
+    coding_tree.weights_.emplace_back(node);
+  }
+
+  size_t coding_map_size{};
+  in >> coding_map_size;
+  for (size_t i = 0; i < coding_map_size; ++i) {
+    std::string symbol{};
+    in >> symbol;
+    size_t code_size{};
+    in >> code_size;
+    std::vector<bool> code{};
+    code.reserve(code_size);
+    for (size_t j = 0; j < code_size; ++j) {
+      std::string bit{};
+      in >> bit;
+      code.emplace_back(static_cast<bool>(std::stoi(bit)));
+    }
+    coding_tree.code_map_.insert(std::make_pair(symbol.at(0), code));
+  }
+
+  return in;
+}
 
 }  // namespace
 
@@ -273,6 +354,21 @@ struct StaticHuffmanCode::StaticHuffmanCodeImpl {
 
     return frequency_map;
   }
+
+  void Save(const std::string& file_path) {
+    std::ofstream out(file_path);
+    if (out.is_open()) {
+      out << coding_tree;
+    }
+  }
+
+  void Load(const std::string& file_path) {
+    std::ifstream in(file_path);
+    if (in.is_open()) {
+      coding_tree.ClearTree();
+      in >> coding_tree;
+    }
+  }
 };
 
 StaticHuffmanCode::StaticHuffmanCode()
@@ -286,6 +382,14 @@ std::vector<std::byte> StaticHuffmanCode::Encode(const std::span<char>& text) {
 
 std::string StaticHuffmanCode::Decode(const std::vector<std::byte>& encoded) {
   return impl_->Decode(encoded);
+}
+
+void StaticHuffmanCode::Save(const std::string& save_path) {
+  impl_->Save(save_path);
+}
+
+void StaticHuffmanCode::Load(const std::string& load_path) {
+  impl_->Load(load_path);
 }
 
 }  // namespace doht::shc
