@@ -39,8 +39,6 @@ class CodingTree {
       ClearTree();
     }
 
-    SetSize(frequencies.size());
-
     struct HeapNode : Node {
       HeapNode(const std::optional<char>& symbol, size_t freq) {
         this->symbol = symbol;
@@ -112,12 +110,14 @@ class CodingTree {
         auto [index, node_visited] = to_visit.top();
         to_visit.pop();
 
-        if (index < weights_.capacity()) {
-          weights_.at(index) = Node{
-              .symbol = node_visited->symbol,
-              .frequency = node_visited->frequency,
-          };
+        if (index >= weights_.size()) {
+          weights_.resize((weights_.size() << 1) + 1);
         }
+
+        weights_.at(index) = Node{
+            .symbol = node_visited->symbol,
+            .frequency = node_visited->frequency,
+        };
 
         if (node_visited->left) {
           to_visit.push({Left(index), node_visited->left});
@@ -192,13 +192,6 @@ class CodingTree {
   inline int32_t Right(int32_t parent) const { return (parent << 1) + 2; }
   inline int32_t Left(int32_t parent) const { return (parent << 1) + 1; }
   inline bool IsLeaf(const Node& node) const { return node.symbol.has_value(); }
-  inline void SetSize(int32_t leafs) {
-    /// Danger. This can cosume so much memory. TODO(Marcos): Reduce memory usage.
-    weights_.reserve(1 << leafs);
-    for (size_t i = 0; i < weights_.capacity(); ++i) {
-      weights_.emplace_back(Node{.symbol = std::nullopt, .frequency = 0});
-    }
-  }
 
   void AssignCodesFromTree(size_t node, std::vector<bool>&& path) {
     if (node >= weights_.size()) {
@@ -260,7 +253,6 @@ std::istream& operator>>(std::istream& in, CodingTree& coding_tree) {
   for (size_t i = 0; i < weights_size; ++i) {
     std::string symbol{};
     in >> symbol;
-
     Node node{};
     if (symbol == "nl") {
       node.symbol = std::nullopt;

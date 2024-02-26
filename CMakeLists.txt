@@ -21,3 +21,5 @@ target_include_directories(shc PUBLIC "include")
 
 find_package(GTest CONFIG REQUIRED)
 add_subdirectory(tests)
+
+add_subdirectory(tools)
