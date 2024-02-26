@@ -35,40 +35,40 @@ TEST_F(StaticHuffmanCodeTest, TestEncodeDecode) {
 TEST_F(StaticHuffmanCodeTest, FunnyCharmander) {
   std::string charmander =
       "\
-                  _.--\"\"`-..\n\
-                ,'          `.\n\
-              ,'          __  `.\n\
+                  _.--\"\"'-..\n\
+                ,'          '.\n\
+              ,'          __  '.\n\
              /|          \" __   \n\
             , |           / |.   .\n\
             |,'          !_.'|   |\n\
           ,'             '   |   |\n\
-         /              |`--'|   |\n\
-        |                `---'   |\n\
+         /              |'--'|   |\n\
+        |                '---'   |\n\
          .   ,                   |                       ,\".\n\
-          ._     '           _'  |                    , '  `\n\
-      `.. `.`-...___,...---\"\"    |       __,.        ,`\"   L,|\n\
-      |, `- .`._        _,-,.'   .  __.-'-. /        .   ,    \n\
-    -:..     `. `-..--_.,.<       `\"      / `.        `-/ |   .\n\
-      `,         \"\"\"\"'     `.              ,'         |   |  ',,\n\
-        `.      '            '            /          '    |'. |/\n\
-          `.   |              \\       _,-'           |       ''\n\
-            `._'               \\   '\"\\                .      |\n\
-               |                '     \\                `._  ,'\n\
+          ._     '           _'  |                    , '  '\n\
+      '.. '.'-...___,...---\"\"    |       __,.        ,'\"   L,|\n\
+      |, '- .'._        _,-,.'   .  __.-'-. /        .   ,    \n\
+    -:..     '. '-..--_.,.<       '\"      / '.        '-/ |   .\n\
+      ',         \"\"\"\"'     '.              ,'         |   |  ',,\n\
+        '.      '            '            /          '    |'. |/\n\
+          '.   |              \\       _,-'           |       ''\n\
+            '._'               \\   '\"\\                .      |\n\
+               |                '     \\                '._  ,'\n\
                |                 '     \\                 .'|\n\
                |                 .      \\                | |\n\
                |                 |       L              ,' |\n\
-               `                 |       |             /   '\n\
+               '                 |       |             /   '\n\
                                 |       |           ,'   /\n\
               ,'                |  _.._ ,-..___,..-'    ,'\n\
-             /     .             .      `!             ,j'\n\
-            /       `.          /        .           .'/\n\
-           .          `.       /         |        _.'.'\n\
-            `.          7`'---'          |------\"'_.'\n\
-           _,.`,_     _'                ,''-----\"'\n\
-       _,-_    '       `.     .'      ,\n\
-       -\" /`.         _,'     | _  _  _.|\n\
-        \"\"--'---\"\"\"\"\"'        `' '! |! /\n\
-                                `\" \" -' mh\n\
+             /     .             .      '!             ,j'\n\
+            /       '.          /        .           .'/\n\
+           .          '.       /         |        _.'.'\n\
+            '.          7''---'          |------\"'_.'\n\
+           _,.',_     _'                ,''-----\"'\n\
+       _,-_    '       '.     .'      ,\n\
+       -\" /'.         _,'     | _  _  _.|\n\
+        \"\"--'---\"\"\"\"\"'        '' '! |! /\n\
+                                '\" \" -' mh\n\
     \n\
     \n";
   auto encoded_charmander = shc_.Encode(charmander);
@@ -90,6 +90,15 @@ TEST_F(StaticHuffmanCodeTest, TestSaveAndLoad) {
   auto decoded = new_shc.Decode(encoded);
 
   ASSERT_EQ(decoded, text_);
+}
+
+TEST_F(StaticHuffmanCodeTest, TestFullASCII) {
+  std::string ascii =
+      " !\"#$%&\'()*+,-./"
+      "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+      "abcdefghijklmnopqrstuvwxyz{|}~";
+
+  ASSERT_EQ(ascii, shc_.Decode(shc_.Encode(ascii)));
 }
 
 }  // namespace doht::shc
