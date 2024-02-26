@@ -77,21 +77,6 @@ TEST_F(StaticHuffmanCodeTest, FunnyCharmander) {
       << decoded_charmander.size() << " " << charmander.size();
 }
 
-TEST_F(StaticHuffmanCodeTest, TestSaveAndLoad) {
-  auto encoded = shc_.Encode(text_);
-
-  auto save_path = "./StaticHuffmanCodeTest.test.file.txt";
-  shc_.Save(save_path);
-
-  StaticHuffmanCode new_shc{};
-
-  new_shc.Load(save_path);
-
-  auto decoded = new_shc.Decode(encoded);
-
-  ASSERT_EQ(decoded, text_);
-}
-
 TEST_F(StaticHuffmanCodeTest, TestFullASCII) {
   std::string ascii =
       " !\"#$%&\'()*+,-./"

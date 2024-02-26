@@ -1,7 +1,4 @@
 // Doth Library (C) by Marcos Oliveira
-#include <doht/shc/shc.h>
-
-#include <CLI/CLI.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -10,6 +7,11 @@
 #include <string>
 #include <type_traits>
 #include <variant>
+
+#include <CLI/CLI.hpp>
+
+#include <doht/data_manager.h>
+#include <doht/shc/shc.h>
 
 namespace doht {
 struct CompressCommand {
@@ -82,14 +84,14 @@ void AppRun(CLI::App& console_app, const CompressCommand& command) {
 
   std::string text{buffer.str()};
 
-  doht::shc::StaticHuffmanCode shc{};
+  shc::StaticHuffmanCode shc{};
 
   auto encoded_text = shc.Encode(text);
 
   compressed_file.write(reinterpret_cast<const char*>(encoded_text.data()),
                         encoded_text.size());
 
-  shc.Save(command.encoder_path);
+  shc::Save(shc, command.encoder_path);
 
   return;
 }
@@ -99,7 +101,7 @@ void AppRun(CLI::App& console_app, const DecompressCommand& command) {
   std::cout << command.decompressed_path << "\n";
   std::cout << command.compressed_path << "\n";
   std::cout << command.encoder_path;
-  shc.Load(command.encoder_path);
+  shc::Load(command.encoder_path, shc);
 
   // std::ifstream compressed_file(command.compressed_path, std::ios::binary);
 
