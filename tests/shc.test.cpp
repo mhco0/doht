@@ -1,11 +1,11 @@
 // Doth Library (C) by Marcos Oliveira
-#include <doht/shc/shc.h>
+#include <doht/shc.h>
 
 #include <string>
 
 #include <gtest/gtest.h>
 
-namespace doht::shc {
+namespace doht {
 
 class StaticHuffmanCodeTest : public ::testing::Test {
  protected:
@@ -101,4 +101,4 @@ TEST_F(StaticHuffmanCodeTest, TestFullASCII) {
   ASSERT_EQ(ascii, shc_.Decode(shc_.Encode(ascii)));
 }
 
-}  // namespace doht::shc
+}  // namespace doht

@@ -1,5 +1,5 @@
 // Doth Library (C) by Marcos Oliveira
-#include <doht/shc/shc.h>
+#include <doht/shc.h>
 
 #include <cstddef>
 #include <fstream>
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace doht::shc {
+namespace doht {
 
 namespace {
 struct Node {
@@ -383,4 +383,4 @@ void StaticHuffmanCode::Load(const std::string& load_path) {
   impl_->Load(load_path);
 }
 
-}  // namespace doht::shc
+}  // namespace doht

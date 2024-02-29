@@ -15,7 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(doht LANGUAGES C CXX)
 
-add_library(shc STATIC "include/doht/shc/shc.h")
+add_library(shc STATIC "include/doht/shc.h")
 target_sources(shc PUBLIC "src/shc.cpp")
 target_include_directories(shc PUBLIC "include")
 
