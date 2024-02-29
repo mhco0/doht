@@ -1,5 +1,5 @@
 // Doth Library (C) by Marcos Oliveira
-#include <doht/shc/shc.h>
+#include <doht/shc.h>
 
 #include <CLI/CLI.hpp>
 
@@ -82,7 +82,7 @@ void AppRun(CLI::App& console_app, const CompressCommand& command) {
 
   std::string text{buffer.str()};
 
-  doht::shc::StaticHuffmanCode shc{};
+  doht::StaticHuffmanCode shc{};
 
   auto encoded_text = shc.Encode(text);
 
@@ -95,7 +95,7 @@ void AppRun(CLI::App& console_app, const CompressCommand& command) {
 }
 
 void AppRun(CLI::App& console_app, const DecompressCommand& command) {
-  shc::StaticHuffmanCode shc{};
+  StaticHuffmanCode shc{};
   std::cout << command.decompressed_path << "\n";
   std::cout << command.compressed_path << "\n";
   std::cout << command.encoder_path;

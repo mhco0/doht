@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace doht::shc {
+namespace doht {
 
 class StaticHuffmanCode final {
  public:
@@ -29,4 +29,4 @@ class StaticHuffmanCode final {
   std::unique_ptr<StaticHuffmanCodeImpl> impl_;
 };
 
-}  // namespace doht::shc
+}  // namespace doht
