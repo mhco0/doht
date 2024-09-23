@@ -19,6 +19,10 @@ add_library(shc STATIC "include/doht/shc.h")
 target_sources(shc PUBLIC "src/shc.cpp")
 target_include_directories(shc PUBLIC "include")
 
+add_library(ahc STATIC "include/doht/ahc.h")
+target_sources(ahc PUBLIC "src/ahc.cpp")
+target_include_directories(ahc PUBLIC "include")
+
 find_package(GTest CONFIG REQUIRED)
 add_subdirectory(tests)
 

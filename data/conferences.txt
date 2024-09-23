@@ -1,0 +1,5 @@
+SEA - symposium of experimental algorithms
+WABI - workshop of algorithms for bioinformatics
+RECOMB research computational molecular biology
+ismb - intelligent systems for molecular biology
+eccb - european conference on molecular biology
