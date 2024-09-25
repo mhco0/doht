@@ -3,3 +3,5 @@ build/
 *.obj
 *.so
 .vscode/
+doc/*
+!doc/initial_search.tex
